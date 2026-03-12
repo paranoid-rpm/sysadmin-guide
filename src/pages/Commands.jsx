@@ -5,7 +5,6 @@ const SECTIONS = [
   {
     id: 'files',
     title: 'Файлы и директории',
-    icon: '📁',
     color: '#00aaff',
     commands: [
       { cmd: 'ls -lah', desc: 'Список файлов с размерами и скрытыми' },
@@ -23,13 +22,12 @@ const SECTIONS = [
   {
     id: 'process',
     title: 'Процессы и ресурсы',
-    icon: '⚙️',
     color: '#00e676',
     commands: [
       { cmd: 'ps aux --sort=-%cpu | head -10', desc: 'Топ процессов по CPU' },
       { cmd: 'ps aux --sort=-%mem | head -10', desc: 'Топ процессов по памяти' },
-      { cmd: 'kill -15 PID', desc: 'Мягкое завершение процесса' },
-      { cmd: 'kill -9 PID', desc: 'Принудительное завершение' },
+      { cmd: 'kill -15 PID', desc: 'Мягкое завершение процесса (SIGTERM)' },
+      { cmd: 'kill -9 PID', desc: 'Принудительное завершение (SIGKILL)' },
       { cmd: 'pgrep -u www-data nginx', desc: 'PID процесса по имени и пользователю' },
       { cmd: 'lsof -p PID', desc: 'Открытые файлы процесса' },
       { cmd: 'strace -p PID', desc: 'Системные вызовы процесса' },
@@ -41,7 +39,6 @@ const SECTIONS = [
   {
     id: 'network',
     title: 'Сеть',
-    icon: '🌐',
     color: '#818cf8',
     commands: [
       { cmd: 'ss -tulpn', desc: 'Открытые порты и слушающие сервисы' },
@@ -59,7 +56,6 @@ const SECTIONS = [
   {
     id: 'systemd',
     title: 'Systemd',
-    icon: '🔧',
     color: '#fb923c',
     commands: [
       { cmd: 'systemctl status nginx', desc: 'Статус сервиса' },
@@ -77,7 +73,6 @@ const SECTIONS = [
   {
     id: 'docker',
     title: 'Docker',
-    icon: '🐳',
     color: '#2496ed',
     commands: [
       { cmd: 'docker ps -a', desc: 'Все контейнеры включая остановленные' },
@@ -95,7 +90,6 @@ const SECTIONS = [
   {
     id: 'logs',
     title: 'Логи и дебаг',
-    icon: '📜',
     color: '#f4a261',
     commands: [
       { cmd: 'tail -f /var/log/syslog', desc: 'Системный лог в реальном времени' },
@@ -113,7 +107,6 @@ const SECTIONS = [
   {
     id: 'postgres',
     title: 'PostgreSQL',
-    icon: '🐘',
     color: '#336791',
     commands: [
       { cmd: 'psql -U postgres -c "\\l"', desc: 'Список баз данных' },
@@ -131,7 +124,6 @@ const SECTIONS = [
   {
     id: 'security',
     title: 'Безопасность',
-    icon: '🛡️',
     color: '#e63946',
     commands: [
       { cmd: 'ss -tulpn | grep LISTEN', desc: 'Все слушающие порты' },
@@ -144,6 +136,74 @@ const SECTIONS = [
       { cmd: 'openssl s_client -connect host:443 2>/dev/null | openssl x509 -noout -dates', desc: 'Срок действия SSL-сертификата' },
       { cmd: 'chage -l username', desc: 'Политика паролей пользователя' },
       { cmd: 'getenforce', desc: 'Статус SELinux' },
+    ]
+  },
+  {
+    id: 'git',
+    title: 'Git',
+    color: '#f05032',
+    commands: [
+      { cmd: 'git log --oneline --graph --all', desc: 'Граф всех веток' },
+      { cmd: 'git diff HEAD~1 HEAD', desc: 'Изменения последнего коммита' },
+      { cmd: 'git stash list', desc: 'Список сохранённых изменений' },
+      { cmd: 'git stash pop', desc: 'Восстановить последний stash' },
+      { cmd: 'git reset --hard origin/main', desc: 'Сбросить ветку до удалённого состояния' },
+      { cmd: 'git rebase -i HEAD~3', desc: 'Интерактивный rebase последних 3 коммитов' },
+      { cmd: 'git cherry-pick <sha>', desc: 'Перенести конкретный коммит в текущую ветку' },
+      { cmd: 'git bisect start && git bisect bad && git bisect good <sha>', desc: 'Бинарный поиск регрессии' },
+      { cmd: 'git clean -fdx', desc: 'Удалить неотслеживаемые файлы и директории' },
+      { cmd: 'git shortlog -sn --all', desc: 'Статистика коммитов по авторам' },
+    ]
+  },
+  {
+    id: 'nginx',
+    title: 'Nginx',
+    color: '#009900',
+    commands: [
+      { cmd: 'nginx -t', desc: 'Проверить синтаксис конфига' },
+      { cmd: 'nginx -s reload', desc: 'Перезагрузить конфиг без даунтайма' },
+      { cmd: 'nginx -T | grep server_name', desc: 'Показать все server_name из конфига' },
+      { cmd: 'tail -f /var/log/nginx/access.log | awk \'{print $1}\' | sort | uniq -c | sort -rn | head', desc: 'Топ IP по запросам в реальном времени' },
+      { cmd: 'awk \'{print $9}\' /var/log/nginx/access.log | sort | uniq -c | sort -rn', desc: 'Распределение HTTP-кодов ответа' },
+      { cmd: 'awk \'{sum+=$10} END{print sum/NR" bytes avg"}\' /var/log/nginx/access.log', desc: 'Средний размер ответа' },
+      { cmd: 'grep " 5[0-9][0-9] " /var/log/nginx/access.log | tail -20', desc: 'Последние 5xx ошибки' },
+      { cmd: 'certbot renew --dry-run', desc: 'Проверить автообновление SSL без применения' },
+      { cmd: 'openssl dhparam -out /etc/nginx/dhparam.pem 2048', desc: 'Сгенерировать DH-параметры' },
+      { cmd: 'curl -H "Host: example.com" http://127.0.0.1/', desc: 'Проверить виртуальный хост напрямую' },
+    ]
+  },
+  {
+    id: 'ssl',
+    title: 'SSL / TLS',
+    color: '#ffd700',
+    commands: [
+      { cmd: 'openssl s_client -connect host:443 </dev/null 2>/dev/null | openssl x509 -noout -text', desc: 'Полная информация о сертификате' },
+      { cmd: 'openssl x509 -in cert.pem -noout -dates', desc: 'Срок действия локального сертификата' },
+      { cmd: 'openssl x509 -in cert.pem -noout -subject -issuer', desc: 'Subject и Issuer сертификата' },
+      { cmd: 'openssl verify -CAfile ca.crt cert.pem', desc: 'Проверить цепочку сертификатов' },
+      { cmd: 'openssl req -new -newkey rsa:2048 -nodes -keyout key.pem -out csr.pem', desc: 'Создать CSR и ключ' },
+      { cmd: 'openssl s_client -connect host:443 -tls1_2 </dev/null 2>&1 | grep "SSL-Session"', desc: 'Проверить поддержку TLS 1.2' },
+      { cmd: 'certbot certificates', desc: 'Список сертификатов Let\'s Encrypt' },
+      { cmd: 'certbot renew --force-renewal', desc: 'Принудительно обновить все сертификаты' },
+      { cmd: 'openssl crl2pkcs7 -nocrl -certfile chain.pem | openssl pkcs7 -print_certs -noout', desc: 'Проверить цепочку доверия в файле' },
+      { cmd: 'echo | openssl s_client -connect host:443 2>/dev/null | grep -E "subject|issuer|expire"', desc: 'Краткая сводка по сертификату хоста' },
+    ]
+  },
+  {
+    id: 'awksed',
+    title: 'awk / sed / grep',
+    color: '#a78bfa',
+    commands: [
+      { cmd: 'awk \'{print $1, $7}\' /var/log/nginx/access.log', desc: 'Вывести IP и URL из access.log' },
+      { cmd: 'awk -F: \'{print $1}\' /etc/passwd', desc: 'Список всех пользователей' },
+      { cmd: 'awk \'$NF > 1.0\' access.log', desc: 'Строки где последнее поле > 1.0 (время ответа)' },
+      { cmd: 'sed -i \'s/old/new/g\' file.conf', desc: 'Заменить все вхождения в файле' },
+      { cmd: 'sed -n \'10,20p\' file.log', desc: 'Вывести строки 10-20' },
+      { cmd: 'sed \'/^#/d; /^$/d\' config.conf', desc: 'Удалить комментарии и пустые строки' },
+      { cmd: 'grep -E "ERROR|WARN|CRIT" app.log', desc: 'Поиск по нескольким паттернам' },
+      { cmd: 'grep -v "^#" /etc/nginx/nginx.conf | grep -v "^$"', desc: 'Конфиг без комментариев' },
+      { cmd: 'grep -oP \'\\d{1,3}(\\.\\d{1,3}){3}\' access.log | sort -u', desc: 'Уникальные IP из лога (regex)' },
+      { cmd: 'awk \'END{print NR}\' file.log', desc: 'Количество строк в файле' },
     ]
   },
 ]
@@ -172,11 +232,12 @@ export default function Commands() {
     .filter(s => s.commands.length > 0)
 
   const totalCount = filtered.reduce((n, s) => n + s.commands.length, 0)
+  const totalAll   = SECTIONS.reduce((n, s) => n + s.commands.length, 0)
 
   return (
     <div>
       <h1 className="page-title">Шпаргалка <span className="accent">команд</span></h1>
-      <p className="page-subtitle">80 команд по 8 категориям. Клик на команду — скопировать в буфер.</p>
+      <p className="page-subtitle">{totalAll} команд по {SECTIONS.length} категориям. Клик на команду — скопировать в буфер.</p>
 
       <div className="cmd-controls">
         <input
@@ -197,7 +258,7 @@ export default function Commands() {
               style={{ '--sc': s.color }}
               onClick={() => setActive(s.id)}
             >
-              {s.icon} {s.title}
+              {s.title}
             </button>
           ))}
         </div>
@@ -209,7 +270,7 @@ export default function Commands() {
         {filtered.map(section => (
           <div key={section.id} className="cmd-section">
             <div className="cmd-section-title" style={{ borderLeftColor: section.color }}>
-              {section.icon} {section.title}
+              {section.title}
             </div>
             <div className="cmd-list">
               {section.commands.map((c, i) => (
