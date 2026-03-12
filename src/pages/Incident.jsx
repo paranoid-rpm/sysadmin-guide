@@ -29,8 +29,7 @@ const INCIDENTS = [
       { title: 'Проверить состояние процессов', cmd: 'ps aux --sort=-%cpu | head -15', desc: 'D-state процессы = ждут I/O (проблема с диском?)' },
       { title: 'Проверить I/O', cmd: 'iostat -x 1 5', desc: 'Смотри %util и await. Если >90% — проблема с диском' },
       { title: 'Проверить память', cmd: 'free -h && vmstat 1 5', desc: 'Если swap активно используется — нехватка RAM' },
-      { title: 'Завершить проблемный процесс', cmd: 'kill -15 <PID>  # мягко
-kill -9 <PID>   # жёстко', desc: 'Сначала -15 (SIGTERM), потом -9 (SIGKILL) если не помогло' },
+      { title: 'Завершить проблемный процесс', cmd: `kill -15 <PID>  # мягко\nkill -9 <PID>   # жёстко`, desc: 'Сначала -15 (SIGTERM), потом -9 (SIGKILL) если не помогло' },
       { title: 'Проверить cron', cmd: 'crontab -l && cat /etc/cron.d/*', desc: 'Возможно запустился тяжёлый плановый процесс' },
     ],
     prevention: 'Мониторинг CPU/LA. Настроить алерты. Оптимизировать тяжёлые запросы к БД. Ограничивать ресурсы контейнеров (cpu_limit).'
@@ -43,12 +42,10 @@ kill -9 <PID>   # жёстко', desc: 'Сначала -15 (SIGTERM), потом
     steps: [
       { title: 'Проверить интерфейсы', cmd: 'ip addr show && ip link show', desc: 'Интерфейс должен быть UP и иметь IP' },
       { title: 'Проверить маршруты', cmd: 'ip route show', desc: 'Должен быть default route через шлюз' },
-      { title: 'Пинг шлюза', cmd: 'ping -c 4 $(ip route | grep default | awk \'{print $3}\')', desc: 'Если шлюз не отвечает — проблема на уровне L2/L3' },
+      { title: 'Пинг шлюза', cmd: `ping -c 4 $(ip route | grep default | awk '{print $3}')`, desc: 'Если шлюз не отвечает — проблема на уровне L2/L3' },
       { title: 'Проверить DNS', cmd: 'cat /etc/resolv.conf && dig google.com', desc: '' },
       { title: 'Проверить firewall', cmd: 'iptables -L -n -v && ufw status', desc: 'Возможно заблокированы нужные порты' },
-      { title: 'Перезапустить сеть', cmd: 'systemctl restart networking
-# или
-nmcli networking off && nmcli networking on', desc: '' },
+      { title: 'Перезапустить сеть', cmd: `systemctl restart networking\n# или\nnmcli networking off && nmcli networking on`, desc: '' },
       { title: 'Проверить физический уровень', cmd: 'ethtool eth0 | grep -i link', desc: 'Link detected: yes — кабель подключён' },
     ],
     prevention: 'Мониторинг доступности с внешнего хоста. Документировать сетевую схему. Хранить backup конфигов.'
@@ -61,9 +58,7 @@ nmcli networking off && nmcli networking on', desc: '' },
     steps: [
       { title: 'Смотреть логи Nginx', cmd: 'tail -50 /var/log/nginx/error.log', desc: 'Ищем строки с upstream' },
       { title: 'Проверить upstream', cmd: 'curl -I http://localhost:8080', desc: 'Проверить что backend отвечает напрямую' },
-      { title: 'Процесс backend', cmd: 'systemctl status myapp
-# или для Docker:
-docker compose ps', desc: '' },
+      { title: 'Процесс backend', cmd: `systemctl status myapp\n# или для Docker:\ndocker compose ps`, desc: '' },
       { title: 'Проверить порт', cmd: 'ss -tlnp | grep 8080', desc: 'Backend должен слушать нужный порт' },
       { title: 'Логи приложения', cmd: 'journalctl -u myapp -n 100 --no-pager', desc: 'Ищем исключения и ошибки старта' },
       { title: 'Перезапустить backend', cmd: 'systemctl restart myapp', desc: 'Иногда помогает, но нужно разобраться с причиной' },
@@ -79,8 +74,7 @@ docker compose ps', desc: '' },
     steps: [
       { title: 'Проверить доступность порта', cmd: 'nc -zv server_ip 22', desc: 'Timeout = firewall или сервис не запущен' },
       { title: 'Verbose подключение', cmd: 'ssh -vvv user@server', desc: 'Покажет где именно происходит отказ' },
-      { title: 'Права на ключ', cmd: 'chmod 600 ~/.ssh/id_rsa
-chmod 700 ~/.ssh/', desc: 'SSH откажет если права слишком широкие' },
+      { title: 'Права на ключ', cmd: `chmod 600 ~/.ssh/id_rsa\nchmod 700 ~/.ssh/`, desc: 'SSH откажет если права слишком широкие' },
       { title: 'Проверить authorized_keys', cmd: 'cat ~/.ssh/authorized_keys', desc: 'Публичный ключ должен быть здесь' },
       { title: 'Проверить fail2ban', cmd: 'fail2ban-client status sshd', desc: 'Возможно ваш IP заблокирован' },
       { title: 'Снять бан', cmd: 'fail2ban-client set sshd unbanip <IP>', desc: '' },
@@ -94,7 +88,7 @@ chmod 700 ~/.ssh/', desc: 'SSH откажет если права слишком
     title: 'OOM Killer убил процесс',
     symptoms: ['Процесс внезапно умер, в логах есть "Out of memory"', 'Сервис перестал отвечать без видимой причины', 'Ошибки в dmesg: "oom-kill-action"'],
     steps: [
-      { title: 'Подтвердить OOM', cmd: 'dmesg -T | grep -i "oom\|killed process\|out of memory"', desc: 'Убедиться что ядро действительно убило процесс' },
+      { title: 'Подтвердить OOM', cmd: 'dmesg -T | grep -i "oom\\|killed process\\|out of memory"', desc: 'Убедиться что ядро действительно убило процесс' },
       { title: 'Узнать что убили', cmd: 'journalctl -k | grep -i oom | tail -20', desc: 'journalctl -k = kernel логи' },
       { title: 'Текущее состояние памяти', cmd: 'free -h && cat /proc/meminfo | grep -E "MemTotal|MemAvailable|SwapTotal|SwapFree"', desc: '' },
       { title: 'Топ по потреблению RAM', cmd: 'ps aux --sort=-%mem | head -15', desc: 'Найти процессы пожирающие память' },
@@ -111,7 +105,7 @@ chmod 700 ~/.ssh/', desc: 'SSH откажет если права слишком
     symptoms: ['"No space left on device" при свободном месте на диске', 'Невозможно создать новые файлы', 'df -h показывает свободное место, но файлы не создаются'],
     steps: [
       { title: 'Проверить inode', cmd: 'df -i', desc: '100% в IUse% = inode исчерпаны' },
-      { title: 'Найти директорию с множеством файлов', cmd: 'for i in /*; do echo $i; find $i -xdev -printf \'.\' | wc -c; done 2>/dev/null | paste - - | sort -k2 -rn | head', desc: 'Найти директорию-чемпион по количеству файлов' },
+      { title: 'Найти директорию с множеством файлов', cmd: `for i in /*; do echo $i; find $i -xdev -printf '.' | wc -c; done 2>/dev/null | paste - - | sort -k2 -rn | head`, desc: 'Найти директорию-чемпион по количеству файлов' },
       { title: 'Посчитать файлы в /tmp', cmd: 'find /tmp -maxdepth 1 | wc -l', desc: 'Частая причина — тысячи временных файлов' },
       { title: 'Удалить старые временные файлы', cmd: 'find /tmp -mtime +1 -delete', desc: 'Удалить файлы старше 1 дня' },
       { title: 'Проверить логи Maildir', cmd: 'find /var/spool/mail -type f | wc -l', desc: 'Системная почта может накопить тысячи файлов' },
@@ -126,14 +120,14 @@ chmod 700 ~/.ssh/', desc: 'SSH откажет если права слишком
     title: 'PostgreSQL: лаг репликации',
     symptoms: ['Чтение с реплики возвращает устаревшие данные', 'Мониторинг показывает растущий replication lag', 'Приложение жалуется на расхождение данных'],
     steps: [
-      { title: 'Измерить лаг на primary', cmd: 'psql -c "SELECT client_addr, state, sent_lsn, write_lsn, flush_lsn, replay_lsn, (sent_lsn - replay_lsn) AS lag_bytes FROM pg_stat_replication;"', desc: 'lag_bytes > 0 — реплика отстаёт' },
-      { title: 'Проверить на standby', cmd: 'psql -c "SELECT now() - pg_last_xact_replay_timestamp() AS replication_delay;"', desc: 'Время с последней применённой транзакции' },
+      { title: 'Измерить лаг на primary', cmd: `psql -c "SELECT client_addr, state, (sent_lsn - replay_lsn) AS lag_bytes FROM pg_stat_replication;"`, desc: 'lag_bytes > 0 — реплика отстаёт' },
+      { title: 'Проверить на standby', cmd: `psql -c "SELECT now() - pg_last_xact_replay_timestamp() AS replication_delay;"`, desc: 'Время с последней применённой транзакции' },
       { title: 'Проверить нагрузку реплики', cmd: 'iostat -x 1 5  # на standby', desc: 'Если %util диска > 80% — реплика не успевает применять WAL' },
-      { title: 'Проверить долгие транзакции на primary', cmd: 'psql -c "SELECT pid, now() - xact_start AS duration, query FROM pg_stat_activity WHERE state = \'active\' ORDER BY duration DESC LIMIT 5;"', desc: 'Долгая транзакция блокирует очистку WAL' },
-      { title: 'Проверить max_wal_size', cmd: 'psql -c "SHOW max_wal_size; SHOW wal_level; SHOW max_replication_slots;"', desc: '' },
-      { title: 'Проверить процесс WAL receiver', cmd: 'psql -c "SELECT * FROM pg_stat_wal_receiver;"  # на standby', desc: 'Должен быть в состоянии streaming' },
+      { title: 'Долгие транзакции на primary', cmd: `psql -c "SELECT pid, now() - xact_start AS duration, query FROM pg_stat_activity WHERE state = 'active' ORDER BY duration DESC LIMIT 5;"`, desc: 'Долгая транзакция блокирует очистку WAL' },
+      { title: 'Проверить max_wal_size', cmd: `psql -c "SHOW max_wal_size; SHOW wal_level; SHOW max_replication_slots;"`, desc: '' },
+      { title: 'Проверить WAL receiver', cmd: `psql -c "SELECT * FROM pg_stat_wal_receiver;"  # на standby`, desc: 'Должен быть в состоянии streaming' },
     ],
-    prevention: 'Мониторинг replication_delay. Алерт при lag > 30 сек. Ограничивать длиня транзакций (idle_in_transaction_timeout). Обеспечить равноценный диск на standby.'
+    prevention: 'Мониторинг replication_delay. Алерт при lag > 30 сек. Ограничивать длину транзакций (idle_in_transaction_timeout). Обеспечить равноценный диск на standby.'
   },
   {
     id: 'k8s-pod-crashloop',
@@ -143,12 +137,11 @@ chmod 700 ~/.ssh/', desc: 'SSH откажет если права слишком
     steps: [
       { title: 'Увидеть состояние подов', cmd: 'kubectl get pods -n <namespace>', desc: '' },
       { title: 'Описать проблемный под', cmd: 'kubectl describe pod <pod-name> -n <namespace>', desc: 'Смотри Events в конце вывода' },
-      { title: 'Логи пода', cmd: 'kubectl logs <pod-name> -n <namespace>
-kubectl logs <pod-name> -n <namespace> --previous', desc: '--previous — логи предыдущего запуска' },
+      { title: 'Логи пода', cmd: `kubectl logs <pod-name> -n <namespace>\nkubectl logs <pod-name> -n <namespace> --previous`, desc: '--previous — логи предыдущего запуска' },
       { title: 'Проверить лимиты ресурсов', cmd: 'kubectl top pod <pod-name> -n <namespace>', desc: 'Нехватка CPU/памяти частая причина' },
-      { title: 'Проверить секреты и configmap', cmd: 'kubectl get events -n <namespace> --sort-by=.lastTimestamp | tail -20', desc: 'Ошибки монтирования секретов' },
+      { title: 'События namespace', cmd: 'kubectl get events -n <namespace> --sort-by=.lastTimestamp | tail -20', desc: 'Ошибки монтирования секретов' },
       { title: 'Зайти в контейнер', cmd: 'kubectl exec -it <pod-name> -n <namespace> -- sh', desc: 'Если под успел стартовать, проверить конфиг внутри' },
-      { title: 'Смотреть образ и пробы', cmd: 'kubectl describe pod <pod-name> | grep -A5 "Liveness\|Readiness"', desc: 'Частая причина — неправильная настройка liveness probe' },
+      { title: 'Смотреть пробы', cmd: `kubectl describe pod <pod-name> | grep -A5 "Liveness\\|Readiness"`, desc: 'Частая причина — неправильная настройка liveness probe' },
     ],
     prevention: 'Настроить адекватные requests/limits. Проверять образ локально перед деплоем. Настроить liveness/readiness probe с readinessDelay.'
   },
