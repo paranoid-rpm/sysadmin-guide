@@ -10,14 +10,11 @@ const PRESETS = [
   { label: 'Каждый день в 0:00',   expr: '0 0 * * *' },
   { label: 'По будням в 9:00',     expr: '0 9 * * 1-5' },
   { label: 'По воскресеньям',      expr: '0 0 * * 0' },
-  { label: 'Каждый месяц 1-го',    expr: '0 0 1 * *' },
+  { label: 'Каждый месяц 1‑го',    expr: '0 0 1 * *' },
   { label: 'Каждый квартал',       expr: '0 0 1 1,4,7,10 *' },
-  { label: 'Раз в год (1 янв)',     expr: '0 0 1 1 *' },
+  { label: 'Раз в год (1 января)', expr: '0 0 1 1 *' },
   { label: 'При перезагрузке',     expr: '@reboot' },
 ]
-
-const DOW = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-const MONTHS = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
 
 function parseField(val, min, max) {
   if (val === '*') return { type: 'any', values: [] }
@@ -124,7 +121,7 @@ export default function Cron() {
   return (
     <div>
       <h1 className="page-title">Конструктор <span className="accent">cron</span></h1>
-      <p className="page-subtitle">Составь cron-выражение и посмотри ближайшие запуски.</p>
+      <p className="page-subtitle">Составь cron‑выражение и посмотри ближайшие запуски.</p>
 
       <div className="cron-layout">
         <div className="cron-left">
@@ -153,7 +150,7 @@ export default function Cron() {
             <div className="cron-desc">
               {descriptions.map((d, i) => (
                 <div key={i} className="cron-desc-item">
-                  <span className="cdi-bullet">▸</span>
+                  <span className="cdi-bullet">•</span>
                   <span>{d}</span>
                 </div>
               ))}
@@ -171,7 +168,7 @@ export default function Cron() {
           </div>
 
           <div className="cron-result">
-            <div className="cron-result-label">Итоговая crontab-строка</div>
+            <div className="cron-result-label">Итоговая строка для crontab</div>
             <div className="cron-result-row">
               <code className="cron-result-code">{fullCron}</code>
               <button className={`cron-copy-btn ${copied ? 'ok' : ''}`} onClick={copyExpr}>
@@ -182,7 +179,7 @@ export default function Cron() {
         </div>
 
         <div className="cron-right">
-          <div className="cron-presets-title">Пресеты</div>
+          <div className="cron-presets-title">Готовые варианты</div>
           <div className="cron-presets">
             {PRESETS.map(p => (
               <button
@@ -217,7 +214,7 @@ export default function Cron() {
           <div className="hint-cell"><code>*/5</code><span>каждые 5 единиц</span></div>
           <div className="hint-cell"><code>1-5</code><span>диапазон от 1 до 5</span></div>
           <div className="hint-cell"><code>1,3,5</code><span>конкретные значения</span></div>
-          <div className="hint-cell"><code>@reboot</code><span>при загрузке</span></div>
+          <div className="hint-cell"><code>@reboot</code><span>при загрузке системы</span></div>
           <div className="hint-cell"><code>@daily</code><span>раз в сутки</span></div>
         </div>
       </div>

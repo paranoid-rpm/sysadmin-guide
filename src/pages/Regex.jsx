@@ -3,16 +3,16 @@ import './Regex.css'
 
 const FLAGS = [
   { id: 'g', label: 'g', desc: 'все совпадения' },
-  { id: 'i', label: 'i', desc: 'без регистра' },
-  { id: 'm', label: 'm', desc: 'многострочный' },
-  { id: 's', label: 's', desc: '. матчит \n' },
+  { id: 'i', label: 'i', desc: 'без учёта регистра' },
+  { id: 'm', label: 'm', desc: 'многострочный режим' },
+  { id: 's', label: 's', desc: 'точка матчит перевод строки' },
 ]
 
 const PRESETS = [
-  { label: 'IPv4', pattern: '\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b', flags: 'g' },
+  { label: 'IPv4‑адрес', pattern: '\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b', flags: 'g' },
   { label: 'Email', pattern: '[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}', flags: 'gi' },
   { label: 'URL', pattern: 'https?:\\/\\/[\\w\\-._~:/?#[\\]@!$&\'()*+,;=%]+', flags: 'gi' },
-  { label: 'MAC', pattern: '([0-9A-Fa-f]{2}[:\\-]){5}[0-9A-Fa-f]{2}', flags: 'gi' },
+  { label: 'MAC‑адрес', pattern: '([0-9A-Fa-f]{2}[:\\-]){5}[0-9A-Fa-f]{2}', flags: 'gi' },
   { label: 'UUID', pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', flags: 'gi' },
   { label: 'Дата DD.MM.YYYY', pattern: '\\b\\d{2}\\.\\d{2}\\.\\d{4}\\b', flags: 'g' },
   { label: 'Время HH:MM', pattern: '\\b([01]?\\d|2[0-3]):[0-5]\\d\\b', flags: 'g' },
@@ -42,14 +42,14 @@ export default function Regex() {
   const { matches, highlighted, error, replaced } = useMemo(() => {
     if (!pattern) return { matches: [], highlighted: text, error: null, replaced: text }
     try {
-      const re = new RegExp(pattern, flags.includes('g') ? flags : flags + 'g')
-      const allMatches = [...text.matchAll(new RegExp(pattern, flags.includes('g') ? flags : flags + 'g'))]
-      const replaced = text.replace(new RegExp(pattern, flags.includes('g') ? flags : flags + 'g'), replace)
+      const baseFlags = flags.includes('g') ? flags : flags + 'g'
+      const re = new RegExp(pattern, baseFlags)
+      const allMatches = [...text.matchAll(re)]
+      const replaced = text.replace(new RegExp(pattern, baseFlags), replace)
 
-      // Build highlighted HTML
       let result = ''
       let last = 0
-      const reH = new RegExp(pattern, flags.includes('g') ? flags : flags + 'g')
+      const reH = new RegExp(pattern, baseFlags)
       let m
       while ((m = reH.exec(text)) !== null) {
         result += escHtml(text.slice(last, m.index))
@@ -83,13 +83,13 @@ export default function Regex() {
                 className="rx-input"
                 value={pattern}
                 onChange={e => setPattern(e.target.value)}
-                placeholder="pattern"
+                placeholder="шаблон"
                 spellCheck={false}
               />
               <span className="rx-slash">/</span>
               <span className="rx-flags-display">{flags || ' '}</span>
             </div>
-            {error && <div className="rx-error">⚠️ {error}</div>}
+            {error && <div className="rx-error">{error}</div>}
           </div>
 
           <div className="rx-flags">
@@ -122,7 +122,7 @@ export default function Regex() {
 
           {tab === 'replace' && (
             <div className="rx-replace-row">
-              <label className="rx-small-label">Заменить на:</label>
+              <label className="rx-small-label">Заменить на</label>
               <input
                 className="rx-input-sm"
                 value={replace}
@@ -171,7 +171,7 @@ export default function Regex() {
                         ))}
                       </span>
                     )}
-                    <span className="rx-mi-pos">pos {m.index}</span>
+                    <span className="rx-mi-pos">позиция {m.index}</span>
                   </div>
                 ))}
               </div>

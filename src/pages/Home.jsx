@@ -2,18 +2,18 @@ import { Link } from 'react-router-dom'
 import './Home.css'
 
 const SECTIONS = [
-  { to: '/commands',   label: 'Шпаргалка команд',    desc: '120 команд — Linux, Git, Nginx, SSL, awk/sed',      stat: '120' },
-  { to: '/glossary',   label: 'Глоссарий',           desc: '64 термина — Linux, сети, безопасность, DevOps',     stat: '64' },
-  { to: '/ports',      label: 'Справочник портов',   desc: '60 портов с оценкой риска',               stat: '60' },
-  { to: '/quiz',       label: 'Тест знаний',       desc: '30 вопросов — 3 уровня, 9 категорий',       stat: '30' },
-  { to: '/incident',   label: 'Инциденты',           desc: '9 сценариев — OOM, inode, k8s, PG replication',  stat: '9' },
-  { to: '/cron',       label: 'Cron',               desc: 'Билдер выражений с подсказками',          stat: '' },
-  { to: '/network',    label: 'Сеть',               desc: 'Топология, схемы и конструктор',              stat: '' },
-  { to: '/checklist',  label: 'Чеклист',           desc: 'Готовность к работе: junior / middle / senior',  stat: '' },
-  { to: '/theory',     label: 'Теория',             desc: 'Направления, стек, день сисадмина',         stat: '' },
-  { to: '/tools',      label: 'Инструменты',         desc: 'Топ утилит по категориям',                 stat: '' },
-  { to: '/skills',     label: 'Навыки',             desc: 'Junior / Middle / Senior матрица',           stat: '' },
-  { to: '/drag-stack', label: 'Стек',               desc: 'Drag & Drop — разложи инструменты по катег.',   stat: '' },
+  { to: '/commands',   label: 'Шпаргалка команд',    desc: '120 команд: Linux, Git, Nginx, SSL, awk/sed.',            stat: '120' },
+  { to: '/glossary',   label: 'Глоссарий',           desc: '64 термина: Linux, сети, безопасность и DevOps.',         stat: '64' },
+  { to: '/ports',      label: 'Справочник портов',   desc: '60 портов с описанием и оценкой риска.',                  stat: '60' },
+  { to: '/quiz',       label: 'Тест знаний',         desc: '30 вопросов: 3 уровня, 9 категорий.',                     stat: '30' },
+  { to: '/incident',   label: 'Инциденты',           desc: '9 сценариев: OOM, inode, Kubernetes, репликация PG.',     stat: '9' },
+  { to: '/cron',       label: 'Cron',                desc: 'Конструктор cron‑выражений с подсказками.',              stat: '' },
+  { to: '/network',    label: 'Сеть',                desc: 'Готовые схемы и конструктор сетевой топологии.',         stat: '' },
+  { to: '/checklist',  label: 'Чек‑листы',           desc: 'Пошаговые чек‑листы для типовых задач.',                  stat: '' },
+  { to: '/theory',     label: 'Теория',              desc: 'Базовая теория: сети, Linux и безопасность.',             stat: '' },
+  { to: '/tools',      label: 'Инструменты',         desc: '22 утилиты по категориям с командами и ссылками.',        stat: '' },
+  { to: '/skills',     label: 'Навыки',              desc: 'Junior / Middle / Senior‑матрица компетенций.',           stat: '' },
+  { to: '/drag-stack', label: 'Стек',                desc: 'Конструктор стека сервиса: выбери компоненты и порядок.', stat: '' },
 ]
 
 export default function Home() {
