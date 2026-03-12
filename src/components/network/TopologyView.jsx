@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './TopologyView.css'
 
-// Cisco-style SVG icons
 const CiscoIcons = {
   router: ({ color = '#00aaff' }) => (
     <svg viewBox="0 0 56 56" width="52" height="52">
@@ -106,6 +105,19 @@ const CiscoIcons = {
   ),
 }
 
+const TYPE_LABELS = {
+  router:   'Роутер',
+  switch:   'Коммутатор',
+  server:   'Сервер',
+  pc:       'ПК',
+  laptop:   'Ноутбук',
+  phone:    'Смартфон',
+  tv:       'Smart TV',
+  printer:  'Принтер',
+  firewall: 'Файрвол',
+  cloud:    'Облако',
+}
+
 const TYPE_COLORS = {
   router: '#00aaff',
   switch: '#818cf8',
@@ -122,9 +134,9 @@ const TYPE_COLORS = {
 const LINK_STYLES = {
   ethernet: { stroke: '#00aaff', strokeDasharray: 'none', label: 'Ethernet' },
   wifi:     { stroke: '#00e676', strokeDasharray: '6 3',  label: 'Wi-Fi' },
-  fiber:    { stroke: '#ffb300', strokeDasharray: 'none', label: 'Fiber' },
+  fiber:    { stroke: '#ffb300', strokeDasharray: 'none', label: 'Оптоволокно' },
   vpn:      { stroke: '#a78bfa', strokeDasharray: '8 4',  label: 'VPN' },
-  broken:   { stroke: '#ff3d57', strokeDasharray: '4 4',  label: 'FAULT' },
+  broken:   { stroke: '#ff3d57', strokeDasharray: '4 4',  label: 'Обрыв' },
 }
 
 export default function TopologyView({ topology }) {
@@ -135,6 +147,22 @@ export default function TopologyView({ topology }) {
     return d ? { x: d.x + 26, y: d.y + 26 } : { x: 0, y: 0 }
   }
 
+  const openDevice = (device) => {
+    setPopup({
+      kind: 'device',
+      deviceType: device.type,
+      label: device.label,
+      info: device.info,
+      color: device.broken ? '#ff3d57' : (TYPE_COLORS[device.type] || '#94a3b8'),
+      broken: device.broken,
+    })
+  }
+
+  const openLink = (link) => {
+    const style = LINK_STYLES[link.type] || LINK_STYLES.ethernet
+    setPopup({ kind: 'link', style, info: link.info })
+  }
+
   return (
     <div className="topology-view">
       <div className="topology-header">
@@ -142,7 +170,7 @@ export default function TopologyView({ topology }) {
         <p className="topology-desc">{topology.desc}</p>
         {topology.broken && (
           <div className="topology-hint">
-            <span className="hint-label">HINT</span>
+            <span className="hint-label">Подсказка</span>
             {topology.hint}
           </div>
         )}
@@ -164,6 +192,7 @@ export default function TopologyView({ topology }) {
             ))}
           </div>
         </div>
+
         <svg className="topology-svg" viewBox="0 0 700 430" preserveAspectRatio="xMidYMid meet">
           <defs>
             <pattern id="topo-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -179,16 +208,21 @@ export default function TopologyView({ topology }) {
             const mx = (a.x + b.x) / 2
             const my = (a.y + b.y) / 2
             return (
-              <g key={i} className="link-group" onClick={() => setPopup({ type: 'link', ...link, style })}>
+              <g key={i} className="link-group" onClick={() => openLink(link)}>
                 <line
                   x1={a.x} y1={a.y} x2={b.x} y2={b.y}
                   stroke={style.stroke} strokeWidth="1.8"
                   strokeDasharray={style.strokeDasharray === 'none' ? undefined : style.strokeDasharray}
                   opacity="0.7"
                 />
-                <rect x={mx-22} y={my-9} width={44} height={18} rx={3} fill="#0d1b2e" opacity="0.9"/>
-                <rect x={mx-22} y={my-9} width={44} height={18} rx={3} fill="none" stroke={style.stroke} strokeWidth="0.5" opacity="0.5"/>
-                <text x={mx} y={my+5} textAnchor="middle" fontSize="9.5" fill={style.stroke} fontFamily="var(--mono)" fontWeight="600" letterSpacing="0.05em">
+                {/* invisible wide hit area */}
+                <line
+                  x1={a.x} y1={a.y} x2={b.x} y2={b.y}
+                  stroke="transparent" strokeWidth="14"
+                />
+                <rect x={mx-26} y={my-9} width={52} height={18} rx={3} fill="#0d1b2e" opacity="0.92"/>
+                <rect x={mx-26} y={my-9} width={52} height={18} rx={3} fill="none" stroke={style.stroke} strokeWidth="0.5" opacity="0.5"/>
+                <text x={mx} y={my+5} textAnchor="middle" fontSize="9" fill={style.stroke} fontFamily="var(--mono)" fontWeight="600" letterSpacing="0.04em">
                   {style.label}
                 </text>
               </g>
@@ -203,7 +237,7 @@ export default function TopologyView({ topology }) {
                 key={device.id}
                 className="device-group"
                 transform={`translate(${device.x}, ${device.y})`}
-                onClick={() => setPopup({ type: 'device', ...device, color })}
+                onClick={() => openDevice(device)}
               >
                 {device.broken && (
                   <circle cx="26" cy="26" r="34" fill="#ff3d57" opacity="0.06"/>
@@ -213,7 +247,7 @@ export default function TopologyView({ topology }) {
                   {device.label}
                 </text>
                 {device.broken && (
-                  <text x="26" y="76" textAnchor="middle" fontSize="8" fill="#ff3d57" fontFamily="var(--mono)" fontWeight="700">FAULT</text>
+                  <text x="26" y="76" textAnchor="middle" fontSize="8" fill="#ff3d57" fontFamily="var(--mono)" fontWeight="700">ОБРЫВ</text>
                 )}
               </g>
             )
@@ -225,25 +259,34 @@ export default function TopologyView({ topology }) {
         <div className="topology-popup-overlay" onClick={() => setPopup(null)}>
           <div className="topology-popup" onClick={e => e.stopPropagation()}>
             <button className="popup-close" onClick={() => setPopup(null)}>&#x2715;</button>
-            {popup.type === 'device' && (
+
+            {popup.kind === 'device' && (
               <>
-                <div className="popup-type-label" style={{color: popup.color}}>{popup.type.toUpperCase()}</div>
-                <h3 className="popup-title">{popup.info.title}</h3>
-                <p className="popup-desc">{popup.info.desc}</p>
-                {popup.info.cmds && popup.info.cmds.length > 0 && (
+                <div className="popup-type-label" style={{ color: popup.color }}>
+                  {TYPE_LABELS[popup.deviceType] || popup.deviceType}
+                  {popup.broken && <span className="popup-fault-tag">ОБРЫВ</span>}
+                </div>
+                <h3 className="popup-title">{popup.info?.title || popup.label}</h3>
+                <p className="popup-desc">{popup.info?.desc}</p>
+                {popup.info?.cmds && popup.info.cmds.length > 0 && (
                   <div className="popup-cmds">
-                    <div className="popup-cmds-label">COMMANDS</div>
+                    <div className="popup-cmds-label">Команды</div>
                     {popup.info.cmds.map((cmd, i) => (
-                      <div key={i} className="popup-cmd"><span className="cmd-prompt">$</span> {cmd}</div>
+                      <div key={i} className="popup-cmd">
+                        <span className="cmd-prompt">$</span> {cmd}
+                      </div>
                     ))}
                   </div>
                 )}
               </>
             )}
-            {popup.type === 'link' && (
+
+            {popup.kind === 'link' && (
               <>
-                <div className="popup-type-label" style={{color: popup.style.stroke}}>LINK &mdash; {popup.style.label}</div>
-                <p className="popup-desc" style={{marginTop:10}}>{popup.info}</p>
+                <div className="popup-type-label" style={{ color: popup.style.stroke }}>
+                  Канал — {popup.style.label}
+                </div>
+                <p className="popup-desc" style={{ marginTop: 12 }}>{popup.info}</p>
               </>
             )}
           </div>
