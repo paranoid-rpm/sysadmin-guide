@@ -141,7 +141,7 @@ export default function Quiz() {
           <div className="result-breakdown">
             {filtered.map(q => (
               <div key={q.id} className={`breakdown-row ${answers[q.id] === q.correct ? 'correct' : 'wrong'}`}>
-                <span className="breakdown-icon">{answers[q.id] === q.correct ? '✓' : '✗'}</span>
+                <span className="breakdown-icon">{answers[q.id] === q.correct ? 'Верно' : 'Неверно'}</span>
                 <span className="breakdown-cat" style={{color:CAT_COLOR[q.cat]||'#00aaff'}}>{q.cat}</span>
                 <span className="breakdown-diff">[{q.diff}]</span>
                 <span className="breakdown-q">{q.q}</span>
@@ -196,8 +196,8 @@ export default function Quiz() {
               <button key={i} className={cls} onClick={() => choose(i)}>
                 <span className="opt-letter">{String.fromCharCode(65+i)}</span>
                 <span className="opt-text">{opt}</span>
-                {isRevealed && i === q.correct && <span className="opt-icon">✓</span>}
-                {isRevealed && i === chosen && i !== q.correct && <span className="opt-icon">✗</span>}
+                {isRevealed && i === q.correct && <span className="opt-icon">Верно</span>}
+                {isRevealed && i === chosen && i !== q.correct && <span className="opt-icon">Неверно</span>}
               </button>
             )
           })}
@@ -213,7 +213,7 @@ export default function Quiz() {
         <div className="quiz-actions">
           {isRevealed && (
             <button className="quiz-next-btn" onClick={next}>
-              {current < filtered.length - 1 ? 'Следующий вопрос →' : 'Посмотреть результат'}
+              {current < filtered.length - 1 ? 'Следующий вопрос' : 'Посмотреть результат'}
             </button>
           )}
         </div>

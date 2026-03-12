@@ -283,9 +283,9 @@ function runCommand(cmd, cwd) {
 
 export default function Terminal() {
   const [history, setHistory] = useState([
-    { type: 'system', text: 'SysAdmin Guide — Linux Terminal Simulator' },
-    { type: 'system', text: `Connected to ${HOSTNAME} as ${USER}` },
-    { type: 'system', text: "Type 'help' for available commands." },
+    { type: 'system', text: 'SysAdmin Guide — симулятор Linux-терминала' },
+    { type: 'system', text: `Подключение к ${HOSTNAME} от имени ${USER}` },
+    { type: 'system', text: "Введите 'help', чтобы увидеть список команд." },
   ])
   const [input, setInput] = useState('')
   const [cwd, setCwd] = useState('/home/admin')
@@ -360,7 +360,7 @@ export default function Terminal() {
 
   return (
     <div>
-      <h1 className="page-title">Terminal <span className="accent">Simulator</span></h1>
+      <h1 className="page-title">Терминал <span className="accent">Linux</span></h1>
       <p className="page-subtitle">Linux-терминал прямо в браузере. Поддержка ls, cd, cat, ping, ps, df, ifconfig и других команд.</p>
 
       <div className="terminal-wrap">
@@ -399,7 +399,7 @@ export default function Terminal() {
       </div>
 
       <div className="terminal-hints">
-        <div className="hints-label">QUICK COMMANDS</div>
+        <div className="hints-label">Быстрые команды</div>
         <div className="hints-list">
           {['ls', 'pwd', 'ps', 'df -h', 'free -h', 'ifconfig', 'netstat', 'ping 8.8.8.8', 'cat /etc/hosts', 'top', 'help'].map(cmd => (
             <button key={cmd} className="hint-btn" onClick={() => { setInput(cmd); inputRef.current?.focus() }}>
