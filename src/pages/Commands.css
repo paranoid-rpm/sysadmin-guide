@@ -1,0 +1,113 @@
+.cmd-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.cmd-search {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: var(--text1);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--sans);
+}
+.cmd-search:focus { border-color: var(--accent); }
+.cmd-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cmd-cat-btn {
+  padding: 5px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.cmd-cat-btn:hover { border-color: var(--accent); color: var(--text1); }
+.cmd-cat-btn.active { border-color: var(--sc, var(--accent)); color: var(--sc, var(--accent)); background: rgba(0,170,255,0.06); }
+
+.cmd-count {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: var(--mono);
+  margin-bottom: 20px;
+}
+
+.cmd-sections { display: flex; flex-direction: column; gap: 24px; }
+
+.cmd-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.cmd-section-title {
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text1);
+  border-bottom: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  background: rgba(255,255,255,0.02);
+}
+
+.cmd-list { display: flex; flex-direction: column; }
+.cmd-item {
+  padding: 12px 18px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.12s;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cmd-item:last-child { border-bottom: none; }
+.cmd-item:hover { background: rgba(0,170,255,0.04); }
+.cmd-item.copied { background: rgba(0,230,118,0.06); }
+
+.cmd-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cmd-prompt {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 13px;
+  flex-shrink: 0;
+  user-select: none;
+}
+.cmd-text {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: #e2e8f0;
+  flex: 1;
+  word-break: break-all;
+}
+.cmd-copy-icon {
+  font-size: 13px;
+  color: var(--text3);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.cmd-item:hover .cmd-copy-icon,
+.cmd-item.copied .cmd-copy-icon { opacity: 1; }
+.cmd-item.copied .cmd-copy-icon { color: #00e676; }
+
+.cmd-desc {
+  font-size: 11px;
+  color: var(--text3);
+  padding-left: 18px;
+  line-height: 1.4;
+}

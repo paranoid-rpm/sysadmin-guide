@@ -12,6 +12,9 @@ import Terminal from './pages/Terminal'
 import Roadmap from './pages/Roadmap'
 import Checklist from './pages/Checklist'
 import Network from './pages/Network'
+import Commands from './pages/Commands'
+import Cron from './pages/Cron'
+import Ports from './pages/Ports'
 import './App.css'
 
 export default function App() {
@@ -32,6 +35,9 @@ export default function App() {
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/checklist" element={<Checklist />} />
           <Route path="/network" element={<Network />} />
+          <Route path="/commands" element={<Commands />} />
+          <Route path="/cron" element={<Cron />} />
+          <Route path="/ports" element={<Ports />} />
         </Routes>
       </main>
     </div>
