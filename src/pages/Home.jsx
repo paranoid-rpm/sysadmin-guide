@@ -1,33 +1,42 @@
 import { Link } from 'react-router-dom'
 import './Home.css'
 
-const features = [
-  { to: '/theory',    label: 'Теория',              desc: 'Кто такой сисадмин, направления, день из жизни' },
-  { to: '/skills',    label: 'Навыки',              desc: 'Что нужно знать на Junior / Middle / Senior' },
-  { to: '/tools',     label: 'Инструменты',           desc: 'Топ утилит по категориям: мониторинг, сеть, бэкап' },
-  { to: '/roadmap',   label: 'Роадмап',             desc: 'Карта навыков с советами по обучению' },
-  { to: '/quiz',      label: 'Квиз',                desc: 'Подходит ли тебе профессия сисадмина?' },
-  { to: '/incident',  label: 'Симулятор инцидентов', desc: 'Реальные ИТ-ситуации — выбирай правильные шаги' },
-  { to: '/drag-stack', label: 'Стек сисадмина',      desc: 'Drag & Drop: разложи инструменты по категориям' },
-  { to: '/terminal',  label: 'Терминал',            desc: 'Типай реальные команды — видишь ответ сервера' },
-  { to: '/checklist', label: 'Чеклист',            desc: 'Готов ли ты к первой работе?' },
-  { to: '/network',   label: 'Сетевая топология',     desc: 'Готовые схемы + конструктор сети как в Cisco', featured: true },
+const SECTIONS = [
+  { to: '/commands',   label: 'Шпаргалка команд',    desc: '120 команд — Linux, Git, Nginx, SSL, awk/sed',           stat: '120 ком.' },
+  { to: '/glossary',   label: 'Глоссарий',           desc: '64 термина — Linux, сети, безопасность, DevOps, БД',           stat: '64 терм.' },
+  { to: '/ports',      label: 'Справочник портов',   desc: '60 портов с оценкой риска',                        stat: '60 порт.' },
+  { to: '/quiz',       label: 'Тест знаний',       desc: '30 вопросов — 3 уровня, 9 категорий',                stat: '30 вопр.' },
+  { to: '/incident',   label: 'Инциденты',           desc: '9 сценариев — OOM, inode, k8s, PG replication',       stat: '9 сцен.' },
+  { to: '/cron',       label: 'Cron',               desc: 'Билдер cron-выражений с подсказками',               stat: '' },
+  { to: '/network',    label: 'Сеть',               desc: 'Топология, схемы и конструктор',                          stat: '' },
+  { to: '/checklist',  label: 'Чеклист',           desc: 'Готовность к работе: junior/middle/senior',               stat: '' },
+  { to: '/theory',     label: 'Теория',             desc: 'Направления, стек, день сисадмина',                    stat: '' },
+  { to: '/tools',      label: 'Инструменты',         desc: 'Топ утилит по категориям: мониторинг, сеть, бэкап',       stat: '' },
+  { to: '/skills',     label: 'Навыки',             desc: 'Junior / Middle / Senior матрица',                    stat: '' },
+  { to: '/drag-stack', label: 'Стек',               desc: 'Drag & Drop — разложи инструменты по категориям',       stat: '' },
 ]
 
 export default function Home() {
   return (
     <div className="home">
       <div className="home-hero">
-        <div className="hero-tag">SYSADMIN GUIDE v1.0</div>
+        <div className="hero-tag">SYSADMIN GUIDE</div>
         <h1 className="hero-title">Путь системного<br/><span>администратора</span></h1>
         <p className="hero-desc">
-          Интерактивный справочник по профессии. Теория, симуляторы, квизы
-          и конструктор сетей — всё в одном месте.
+          Интерактивный справочник по профессии. Теория, симуляторы, квизы и инструменты — всё в одном месте.
         </p>
         <div className="hero-btns">
-          <Link to="/theory" className="btn btn-primary">Начать изучение</Link>
-          <Link to="/network" className="btn btn-outline">Сетевая топология</Link>
+          <Link to="/commands" className="btn btn-primary">Шпаргалка команд</Link>
+          <Link to="/quiz" className="btn btn-outline">Пройти тест</Link>
         </div>
+      </div>
+
+      <div className="home-stats">
+        <div className="home-stat"><span className="stat-num">120</span><span className="stat-label">команд</span></div>
+        <div className="home-stat"><span className="stat-num">64</span><span className="stat-label">термина</span></div>
+        <div className="home-stat"><span className="stat-num">60</span><span className="stat-label">портов</span></div>
+        <div className="home-stat"><span className="stat-num">30</span><span className="stat-label">вопросов</span></div>
+        <div className="home-stat"><span className="stat-num">9</span><span className="stat-label">инцидентов</span></div>
       </div>
 
       <div className="section-header">
@@ -37,11 +46,13 @@ export default function Home() {
       </div>
 
       <div className="grid-3">
-        {features.map(f => (
-          <Link to={f.to} key={f.to} className={`feature-card card${f.featured ? ' featured' : ''}`}>
-            <div className="feature-label">{f.label}</div>
+        {SECTIONS.map(f => (
+          <Link to={f.to} key={f.to} className="feature-card card">
+            <div className="feature-top">
+              <div className="feature-label">{f.label}</div>
+              {f.stat && <div className="feature-stat">{f.stat}</div>}
+            </div>
             <div className="feature-desc">{f.desc}</div>
-            {f.featured && <div className="feature-badge">FEATURED</div>}
           </Link>
         ))}
       </div>
