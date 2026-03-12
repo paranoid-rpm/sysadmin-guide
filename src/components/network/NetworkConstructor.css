@@ -1,0 +1,101 @@
+.constructor { display: flex; flex-direction: column; gap: 12px; }
+
+.constructor-toolbar {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.toolbar-section { display: flex; flex-direction: column; gap: 8px; }
+.toolbar-label { font-size: 0.78rem; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.toolbar-devices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.toolbar-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.15s;
+  min-width: 56px;
+}
+.toolbar-btn span:first-child { font-size: 1.4rem; }
+.toolbar-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(56,189,248,0.08); }
+
+.toolbar-cables { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.cable-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.cable-btn.active {
+  border-color: var(--cc);
+  color: var(--cc);
+  background: rgba(255,255,255,0.04);
+}
+.cable-btn:hover { border-color: var(--cc); color: var(--cc); }
+
+.toolbar-actions { display: flex; flex-direction: row; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: flex-start; }
+
+.connect-hint {
+  background: rgba(56,189,248,0.08);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.validation-result {
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.validation-result.ok { background: rgba(74,222,128,0.1); border: 1px solid var(--green); color: var(--green); }
+.validation-result.fail { background: rgba(248,113,113,0.1); border: 1px solid var(--red); color: var(--text); }
+.validation-result ul { margin: 8px 0 0 16px; }
+.validation-result li { color: var(--red); }
+
+.constructor-canvas-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.constructor-svg {
+  width: 100%;
+  min-height: 420px;
+  display: block;
+  cursor: default;
+}
+
+.constructor-help {
+  color: var(--text2);
+  font-size: 0.85rem;
+  padding: 4px 0;
+}
