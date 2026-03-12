@@ -1,0 +1,174 @@
+.inc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.inc-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.inc-card:hover {
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+.inc-card-top { display: flex; justify-content: space-between; align-items: center; }
+.inc-card-icon { font-size: 26px; }
+.inc-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.inc-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text1);
+  margin: 0;
+}
+.inc-card-symptoms { display: flex; flex-direction: column; gap: 4px; }
+.inc-card-symptom {
+  font-size: 12px;
+  color: var(--text3);
+  padding-left: 4px;
+}
+.inc-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text3);
+  font-family: var(--mono);
+  margin-top: auto;
+}
+.inc-card-arrow { color: var(--accent); }
+
+/* Detail */
+.inc-back {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  border-radius: 7px;
+  padding: 7px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: border-color 0.15s;
+}
+.inc-back:hover { border-color: var(--accent); color: var(--accent); }
+
+.inc-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.inc-detail-icon { font-size: 40px; }
+.inc-severity-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.inc-symptoms {
+  background: rgba(255,61,87,0.05);
+  border: 1px solid rgba(255,61,87,0.15);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+.inc-symptom {
+  font-size: 13px;
+  color: var(--text2);
+  padding: 4px 0;
+}
+
+.inc-section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.inc-steps { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.inc-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.inc-step:hover { border-color: rgba(255,255,255,0.15); }
+.inc-step-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+}
+.inc-step-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 24px;
+}
+.inc-step-title { flex: 1; font-size: 14px; font-weight: 500; color: var(--text1); }
+.inc-step-arrow {
+  font-size: 10px;
+  color: var(--text3);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.inc-step-arrow.up { transform: rotate(180deg); }
+
+.inc-step-body {
+  padding: 0 18px 14px 54px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.inc-cmd {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 7px;
+  padding: 8px 14px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+}
+.inc-cmd-prompt { color: var(--accent); font-family: var(--mono); font-size: 13px; flex-shrink: 0; }
+.inc-cmd code {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #e2e8f0;
+  white-space: pre;
+}
+.inc-step-desc { font-size: 12px; color: var(--text3); margin: 0; line-height: 1.5; }
+
+.inc-prevention {
+  background: rgba(0,170,255,0.05);
+  border: 1px solid rgba(0,170,255,0.15);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+.inc-prevention p { font-size: 13px; color: var(--text2); margin: 0; line-height: 1.6; }

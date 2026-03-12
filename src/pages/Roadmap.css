@@ -1,0 +1,163 @@
+.roadmap-overall {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+.overall-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 8px;
+  font-family: var(--mono);
+}
+.overall-pct { color: var(--accent); font-weight: 700; font-size: 15px; }
+.overall-bar {
+  height: 8px;
+  background: rgba(0,170,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.overall-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #00e676);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.overall-counts {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 6px;
+  font-family: var(--mono);
+}
+
+.roadmap-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roadmap-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.roadmap-card:hover,
+.roadmap-card.open {
+  border-color: var(--stage-color);
+}
+
+.roadmap-card-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.stage-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  min-width: 24px;
+}
+.stage-icon { font-size: 26px; line-height: 1; }
+.stage-info { flex: 1; min-width: 0; }
+.stage-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text1);
+  margin-bottom: 2px;
+}
+.stage-desc {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.stage-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 80px;
+}
+.stage-pct {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--stage-color);
+}
+.stage-mini-bar {
+  width: 72px;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.stage-mini-fill {
+  height: 100%;
+  background: var(--stage-color);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+.stage-counts { font-size: 10px; color: var(--text3); font-family: var(--mono); }
+.stage-arrow {
+  font-size: 10px;
+  color: var(--text3);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.stage-arrow.up { transform: rotate(180deg); }
+
+.roadmap-topics {
+  padding: 0 20px 16px 76px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.topic-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.topic-row:hover { background: rgba(255,255,255,0.03); }
+.topic-row input { display: none; }
+.topic-check {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--stage-color);
+  flex-shrink: 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+.topic-row.checked .topic-check {
+  background: var(--stage-color);
+  border-color: var(--stage-color);
+  color: #0a1628;
+}
+.topic-label {
+  font-size: 13px;
+  color: var(--text2);
+  transition: color 0.2s;
+}
+.topic-row.checked .topic-label {
+  color: var(--text3);
+  text-decoration: line-through;
+}
