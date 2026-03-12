@@ -12,15 +12,17 @@ const LINKS = [
   { to: '/commands', label: 'Команды', group: 'Инструменты' },
   { to: '/tools', label: 'Инструменты', group: 'Инструменты' },
   { to: '/ports', label: 'Порты', group: 'Инструменты' },
-  { to: '/terminal', label: 'Терминал', group: 'Практика' },
-  { to: '/checklist', label: 'Чеклист', group: 'Практика' },
-  { to: '/incident', label: 'Инцидент', group: 'Практика' },
-  { to: '/drag-stack', label: 'Стек', group: 'Практика' },
   { to: '/subnet', label: 'Подсети', group: 'Инструменты' },
   { to: '/regex', label: 'Regex', group: 'Инструменты' },
   { to: '/cron', label: 'Cron', group: 'Инструменты' },
   { to: '/network', label: 'Сеть', group: 'Инструменты' },
+  { to: '/terminal', label: 'Терминал', group: 'Практика' },
+  { to: '/checklist', label: 'Чеклист', group: 'Практика' },
+  { to: '/incident', label: 'Инцидент', group: 'Практика' },
+  { to: '/drag-stack', label: 'Стек', group: 'Практика' },
 ]
+
+const GROUPS = ['Основное', 'Знания', 'Инструменты', 'Практика']
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -29,7 +31,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-top">
         <div className="navbar-brand">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
             <rect x="1" y="7" width="18" height="6" rx="2" stroke="#00aaff" strokeWidth="1.5"/>
             <circle cx="15" cy="10" r="1.2" fill="#00aaff"/>
             <rect x="4" y="1" width="4" height="4" rx="1" stroke="#00aaff" strokeWidth="1.2"/>
@@ -43,12 +45,16 @@ export default function Navbar() {
           </svg>
           SysAdmin Guide
         </div>
-        <button className="navbar-burger" onClick={() => setOpen(o => !o)} aria-label="Меню">
+        <button
+          className={`navbar-burger ${open ? 'active' : ''}`}
+          onClick={() => setOpen(o => !o)}
+          aria-label="Меню"
+        >
           <span/><span/><span/>
         </button>
       </div>
       <div className={`navbar-links ${open ? 'mob-open' : ''}`}>
-        {['\u041e\u0441\u043d\u043e\u0432\u043d\u043e\u0435','\u0417\u043d\u0430\u043d\u0438\u044f','\u0418\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b','\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0430'].map(group => (
+        {GROUPS.map(group => (
           <div key={group} className="nav-group">
             <div className="nav-group-label">{group}</div>
             {LINKS.filter(l => l.group === group).map(l => (
