@@ -1,42 +1,78 @@
 .topology-view { width: 100%; }
 
 .topology-header { margin-bottom: 16px; }
-.topology-title { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
-.topology-desc { color: var(--text2); font-size: 0.95rem; margin-bottom: 8px; }
+.topology-title { font-size: 1.2rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; margin-bottom: 4px; }
+.topology-desc { color: var(--text2); font-size: 0.88rem; }
+
 .topology-hint {
-  background: rgba(251,191,36,0.1);
-  border: 1px solid var(--yellow);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(255,179,0,0.06);
+  border: 1px solid rgba(255,179,0,0.2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  color: var(--text2);
+  margin-top: 10px;
+}
+.hint-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
   color: var(--yellow);
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-size: 0.9rem;
-  margin-top: 8px;
+  background: rgba(255,179,0,0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+  margin-top: 1px;
 }
 
 .topology-canvas-wrap {
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px;
-  overflow: auto;
+  overflow: hidden;
+}
+
+.canvas-toolbar {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+
+.canvas-legend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text2);
+  letter-spacing: 0.05em;
 }
 
 .topology-svg {
   width: 100%;
-  min-height: 420px;
+  min-height: 430px;
   display: block;
 }
 
-.device-group { cursor: pointer; }
-.device-group:hover { opacity: 0.85; }
-
+.device-group { cursor: pointer; transition: opacity 0.15s; }
+.device-group:hover { opacity: 0.8; }
 .link-group { cursor: pointer; }
-.link-group:hover line { opacity: 1; stroke-width: 4; }
+.link-group:hover line { opacity: 1 !important; stroke-width: 3 !important; }
 
 .topology-popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.7);
   z-index: 200;
   display: flex;
   align-items: center;
@@ -45,37 +81,62 @@
 
 .topology-popup {
   background: var(--bg2);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border2);
   border-radius: var(--radius);
-  padding: 28px 32px;
-  max-width: 420px;
+  padding: 24px 28px;
+  max-width: 400px;
   width: 90%;
   position: relative;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
 }
 
 .popup-close {
   position: absolute;
-  top: 12px;
-  right: 16px;
+  top: 10px; right: 14px;
   background: none;
   border: none;
   color: var(--text2);
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   cursor: pointer;
+  padding: 4px;
   line-height: 1;
+  transition: color 0.15s;
 }
 .popup-close:hover { color: var(--text); }
 
-.popup-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
-.popup-desc { color: var(--text2); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px; }
+.popup-type-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
 
-.popup-cmds { background: var(--bg); border-radius: 8px; padding: 12px 16px; }
-.popup-cmds-label { font-size: 0.85rem; color: var(--text2); margin-bottom: 8px; font-weight: 600; }
+.popup-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.popup-desc { color: var(--text2); font-size: 0.88rem; line-height: 1.65; margin-bottom: 16px; }
+
+.popup-cmds {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+.popup-cmds-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
 .popup-cmd {
   font-family: var(--mono);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: var(--green);
-  padding: 3px 0;
+  padding: 4px 0;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
 }
 .popup-cmd:last-child { border-bottom: none; }
+.cmd-prompt { color: var(--accent); opacity: 0.6; }

@@ -2,45 +2,46 @@ import { Link } from 'react-router-dom'
 import './Home.css'
 
 const features = [
-  { to: '/theory', icon: '📖', title: 'Теория', desc: 'Кто такой сисадмин, направления, день из жизни' },
-  { to: '/skills', icon: '🎯', title: 'Навыки', desc: 'Что нужно знать на junior / middle / senior' },
-  { to: '/tools', icon: '🛠', title: 'Инструменты', desc: 'Топ утилит по категориям: мониторинг, сеть, бэкап' },
-  { to: '/roadmap', icon: '🗺', title: 'Роадмап', desc: 'Кликабельная карта навыков с советами' },
-  { to: '/quiz', icon: '❓', title: 'Квиз', desc: 'Подходит ли тебе профессия сисадмина?' },
-  { to: '/incident', icon: '🚨', title: 'Симулятор инцидентов', desc: 'Разберись с реальными ИТ-ситуациями' },
-  { to: '/drag-stack', icon: '🧩', title: 'Собери стек', desc: 'Drag & Drop: разложи инструменты по категориям' },
-  { to: '/terminal', icon: '💻', title: 'Терминал', desc: 'Попробуй реальные команды в браузере' },
-  { to: '/checklist', icon: '✅', title: 'Чеклист', desc: 'Готов ли ты к первой работе сисадмином?' },
-  { to: '/network', icon: '🌐', title: 'Сетевая топология', desc: 'Изучай топологии и строй свою сеть как в Cisco' },
+  { to: '/theory',    label: 'Теория',              desc: 'Кто такой сисадмин, направления, день из жизни' },
+  { to: '/skills',    label: 'Навыки',              desc: 'Что нужно знать на Junior / Middle / Senior' },
+  { to: '/tools',     label: 'Инструменты',           desc: 'Топ утилит по категориям: мониторинг, сеть, бэкап' },
+  { to: '/roadmap',   label: 'Роадмап',             desc: 'Карта навыков с советами по обучению' },
+  { to: '/quiz',      label: 'Квиз',                desc: 'Подходит ли тебе профессия сисадмина?' },
+  { to: '/incident',  label: 'Симулятор инцидентов', desc: 'Реальные ИТ-ситуации — выбирай правильные шаги' },
+  { to: '/drag-stack', label: 'Стек сисадмина',      desc: 'Drag & Drop: разложи инструменты по категориям' },
+  { to: '/terminal',  label: 'Терминал',            desc: 'Типай реальные команды — видишь ответ сервера' },
+  { to: '/checklist', label: 'Чеклист',            desc: 'Готов ли ты к первой работе?' },
+  { to: '/network',   label: 'Сетевая топология',     desc: 'Готовые схемы + конструктор сети как в Cisco', featured: true },
 ]
 
 export default function Home() {
   return (
     <div className="home">
       <div className="home-hero">
-        <div className="hero-terminal">
-          <span className="prompt">$ </span>
-          <span className="cmd">whoami</span>
-          <br />
-          <span className="output">sysadmin</span>
-        </div>
-        <h1 className="hero-title">SysAdmin <span>Guide</span></h1>
+        <div className="hero-tag">SYSADMIN GUIDE v1.0</div>
+        <h1 className="hero-title">Путь системного<br/><span>администратора</span></h1>
         <p className="hero-desc">
-          Интерактивный сайт о профессии системного администратора.
-          Теория, симуляторы, квизы и конструктор сетей — всё в одном месте.
+          Интерактивный справочник по профессии. Теория, симуляторы, квизы
+          и конструктор сетей — всё в одном месте.
         </p>
         <div className="hero-btns">
-          <Link to="/theory" className="btn btn-primary">Начать изучение →</Link>
-          <Link to="/network" className="btn btn-outline">🌐 Открыть топологии</Link>
+          <Link to="/theory" className="btn btn-primary">Начать изучение</Link>
+          <Link to="/network" className="btn btn-outline">Сетевая топология</Link>
         </div>
       </div>
-      <h2 className="section-title">Что есть на сайте</h2>
+
+      <div className="section-header">
+        <div className="section-line"/>
+        <span>Разделы</span>
+        <div className="section-line"/>
+      </div>
+
       <div className="grid-3">
         {features.map(f => (
-          <Link to={f.to} key={f.to} className="feature-card card">
-            <div className="feature-icon">{f.icon}</div>
-            <div className="feature-title">{f.title}</div>
+          <Link to={f.to} key={f.to} className={`feature-card card${f.featured ? ' featured' : ''}`}>
+            <div className="feature-label">{f.label}</div>
             <div className="feature-desc">{f.desc}</div>
+            {f.featured && <div className="feature-badge">FEATURED</div>}
           </Link>
         ))}
       </div>

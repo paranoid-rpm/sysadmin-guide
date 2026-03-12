@@ -13,9 +13,36 @@ import Checklist from './pages/Checklist'
 import Network from './pages/Network'
 import './App.css'
 
+function AnimatedBg() {
+  const particles = Array.from({ length: 18 }, (_, i) => ({
+    id: i,
+    left: `${Math.floor(Math.random() * 100)}%`,
+    top: `${Math.floor(Math.random() * 100)}%`,
+    duration: `${8 + Math.floor(Math.random() * 12)}s`,
+    delay: `${Math.floor(Math.random() * 10)}s`,
+  }))
+  return (
+    <div className="app-bg">
+      <div className="app-bg-grid" />
+      <div className="app-bg-glow g1" />
+      <div className="app-bg-glow g2" />
+      <div className="app-bg-particles">
+        {particles.map(p => (
+          <div key={p.id} className="particle" style={{
+            left: p.left, top: p.top,
+            animationDuration: p.duration,
+            animationDelay: p.delay,
+          }} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   return (
     <div className="app">
+      <AnimatedBg />
       <Navbar />
       <main className="main">
         <Routes>
