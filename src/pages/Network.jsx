@@ -6,7 +6,7 @@ import './Network.css'
 const TOPOLOGIES = [
   {
     id: 'home',
-    label: '🏠 Домашняя сеть',
+    label: 'Домашняя сеть',
     desc: 'Роутер, ПК, ноутбук, смартфон, TV',
     devices: [
       { id: 'router', type: 'router', label: 'Роутер', x: 340, y: 80,
@@ -29,7 +29,7 @@ const TOPOLOGIES = [
   },
   {
     id: 'office',
-    label: '🏢 Офис 20 человек',
+    label: 'Офис 20 человек',
     desc: 'Роутер, свитч, ПК, сервер, принтер',
     devices: [
       { id: 'router', type: 'router', label: 'Роутер', x: 340, y: 40,
@@ -44,7 +44,7 @@ const TOPOLOGIES = [
         info: { title: 'Сетевой принтер', desc: 'Подключён к свитчу, доступен всем устройствам в сети. Настраивается через IP.', cmds: ['ping [printer_ip]'] } },
     ],
     links: [
-      { from: 'router', to: 'switch', type: 'ethernet', info: 'Ethernet — уплинк роутер-свитч.' },
+      { from: 'router', to: 'switch', type: 'ethernet', info: 'Ethernet — uplink роутер–свитч.' },
       { from: 'switch', to: 'server', type: 'ethernet', info: 'Ethernet 1 Гбит/с — сервер имеет приоритетный доступ.' },
       { from: 'switch', to: 'pc1', type: 'ethernet', info: 'Ethernet 100 Мбит/с — стандартное офисное подключение.' },
       { from: 'switch', to: 'printer', type: 'ethernet', info: 'Ethernet — принтер доступен всем в сети.' },
@@ -52,14 +52,14 @@ const TOPOLOGIES = [
   },
   {
     id: 'datacenter',
-    label: '🖥 Серверная комната',
+    label: 'Серверная комната',
     desc: 'Файрвол, коммутатор, несколько серверов',
     devices: [
       { id: 'internet', type: 'cloud', label: 'Интернет', x: 340, y: 30,
-        info: { title: 'Интернет / ISP', desc: 'Подключение от провайдера. Обычно оптика или дедикированный канал.', cmds: [] } },
+        info: { title: 'Интернет / провайдер', desc: 'Подключение от провайдера. Обычно оптика или дедицированный канал.', cmds: [] } },
       { id: 'firewall', type: 'firewall', label: 'Файрвол', x: 340, y: 130,
-        info: { title: 'Файрвол (Firewall)', desc: 'Фильтрует входящий/исходящий трафик по правилам. Защищает серверы от внешних атак.', cmds: ['show access-lists', 'iptables -L', 'ufw status'] } },
-      { id: 'core_switch', type: 'switch', label: 'Корн. комм.', x: 340, y: 230,
+        info: { title: 'Файрвол', desc: 'Фильтрует входящий/исходящий трафик по правилам. Защищает серверы от внешних атак.', cmds: ['show access-lists', 'iptables -L', 'ufw status'] } },
+      { id: 'core_switch', type: 'switch', label: 'Корневой коммутатор', x: 340, y: 230,
         info: { title: 'Корневой коммутатор', desc: '10 Гбит/с, центральное звено сети. Объединяет все серверы и выход наружу.', cmds: ['show cdp neighbors', 'show interfaces trunk', 'show etherchannel'] } },
       { id: 'srv1', type: 'server', label: 'Веб-сервер', x: 140, y: 340,
         info: { title: 'Веб-сервер', desc: 'nginx/Apache. Обрабатывает HTTP/HTTPS запросы. Часто за ним находится балансировщик.', cmds: ['systemctl status nginx', 'tail -f /var/log/nginx/access.log', 'ss -tlnp'] } },
@@ -78,7 +78,7 @@ const TOPOLOGIES = [
   },
   {
     id: 'vpn',
-    label: '🌐 Два офиса (VPN)',
+    label: 'Два офиса (VPN)',
     desc: 'Связь двух офисов через VPN-туннель',
     devices: [
       { id: 'office1_r', type: 'router', label: 'Роутер-1', x: 120, y: 80,
@@ -108,19 +108,19 @@ const TOPOLOGIES = [
   },
   {
     id: 'broken',
-    label: '⚠️ Найди проблему',
+    label: 'Найди проблему',
     desc: 'Топология с неисправным звеном — найди где обрыв',
     broken: true,
     hint: 'Подсказка: ПК не может добраться до сервера. Кабель между свитчом и сервером повреждён.',
     devices: [
       { id: 'router', type: 'router', label: 'Роутер', x: 340, y: 50, info: { title: 'Роутер', desc: 'Работает нормально.', cmds: [] } },
       { id: 'switch', type: 'switch', label: 'Свитч', x: 340, y: 180, info: { title: 'Свитч', desc: 'Работает нормально.', cmds: [] } },
-      { id: 'server', type: 'server', label: 'Сервер', x: 180, y: 320, broken: true, info: { title: 'Сервер (проблема!)', desc: 'Соединение со свитчем оборвано! Порт не отвечает, пинг от ПК не проходит.', cmds: ['ping [server_ip]', 'show interfaces', 'cable test'] } },
+      { id: 'server', type: 'server', label: 'Сервер', x: 180, y: 320, broken: true, info: { title: 'Сервер (проблема)', desc: 'Соединение со свитчем оборвано. Порт не отвечает, пинг от ПК не проходит.', cmds: ['ping [server_ip]', 'show interfaces', 'cable test'] } },
       { id: 'pc', type: 'pc', label: 'ПК', x: 500, y: 320, info: { title: 'ПК', desc: 'Не может достучаться до сервера.', cmds: ['ping [server_ip]', 'tracert [server_ip]'] } },
     ],
     links: [
       { from: 'router', to: 'switch', type: 'ethernet', info: 'Ethernet — работает.' },
-      { from: 'switch', to: 'server', type: 'broken', info: '❗ Кабель повреждён / порт неисправен! Нужно заменить патч-корд или проверить порт на свитче.' },
+      { from: 'switch', to: 'server', type: 'broken', info: 'Кабель повреждён или порт неисправен. Нужно заменить патч-корд или проверить порт на свитче.' },
       { from: 'switch', to: 'pc', type: 'ethernet', info: 'Ethernet — работает.' },
     ]
   },
@@ -132,15 +132,15 @@ export default function Network() {
 
   return (
     <div>
-      <h1 className="page-title">🌐 Сетевая топология</h1>
-      <p className="page-subtitle">5 готовых топологий + конструктор сети как в Cisco</p>
+      <h1 className="page-title">Сетевая <span className="accent">топология</span></h1>
+      <p className="page-subtitle">5 готовых топологий и конструктор сети.</p>
 
       <div className="net-tabs">
         <button className={`net-tab${mode==='topologies'?' active':''}`} onClick={()=>{setMode('topologies');setSelectedTopology(null)}}>
-          📖 Готовые топологии
+          Готовые схемы
         </button>
         <button className={`net-tab${mode==='constructor'?' active':''}`} onClick={()=>{setMode('constructor');setSelectedTopology(null)}}>
-          🛠 Конструктор
+          Конструктор
         </button>
       </div>
 
@@ -150,7 +150,7 @@ export default function Network() {
             <div key={t.id} className="topology-card card" onClick={() => setSelectedTopology(t)}>
               <div className="topology-card-label">{t.label}</div>
               <div className="topology-card-desc">{t.desc}</div>
-              {t.broken && <span className="badge" style={{background:'var(--red)',color:'#fff',marginTop:8}}>⚠️ Найди проблему</span>}
+              {t.broken && <span className="badge" style={{background:'var(--red)',color:'#fff',marginTop:8}}>Найди проблему</span>}
             </div>
           ))}
         </div>

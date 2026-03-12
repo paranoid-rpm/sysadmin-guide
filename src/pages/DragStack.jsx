@@ -2,20 +2,20 @@ import { useState, useRef } from 'react'
 import './DragStack.css'
 
 const INITIAL_ITEMS = [
-  { id: 1, name: 'Firewall', icon: '🛡️', color: '#ff3d57', desc: 'Первый рубеж защиты. Фильтрует входящий и исходящий трафик по правилам.' },
-  { id: 2, name: 'Load Balancer', icon: '⚖️', color: '#00aaff', desc: 'Распределяет запросы между несколькими backend-серверами.' },
-  { id: 3, name: 'Web Server', icon: '⚡', color: '#00e676', desc: 'Nginx/Apache. Обрабатывает HTTP-запросы, отдаёт статику или проксирует на app-серверы.' },
-  { id: 4, name: 'App Server', icon: '🖥️', color: '#818cf8', desc: 'Бизнес-логика приложения. Node.js, Python, Java, Go и др.' },
-  { id: 5, name: 'Cache', icon: '⚡', color: '#ffb300', desc: 'Redis / Memcached. Хранит горячие данные в памяти для ускорения ответов.' },
-  { id: 6, name: 'Database', icon: '🗄️', color: '#fb923c', desc: 'PostgreSQL / MySQL. Надёжное хранение структурированных данных.' },
-  { id: 7, name: 'Message Queue', icon: '📨', color: '#a78bfa', desc: 'RabbitMQ / Kafka. Асинхронная обработка и развязка сервисов.' },
-  { id: 8, name: 'Object Storage', icon: '🪣', color: '#64748b', desc: 'MinIO / S3. Хранение файлов, медиа, бэкапов.' },
-  { id: 9, name: 'CDN', icon: '🌍', color: '#0ea5e9', desc: 'Cloudflare / Fastly. Кэширование статики на edge-серверах ближе к пользователям.' },
-  { id: 10, name: 'Monitoring', icon: '📊', color: '#00e676', desc: 'Prometheus + Grafana. Сбор метрик, алерты, дашборды.' },
+  { id: 1, name: 'Файрвол',        icon: '', color: '#ff3d57', desc: 'Первый рубеж защиты. Фильтрует входящий и исходящий трафик по правилам.' },
+  { id: 2, name: 'Балансировщик',  icon: '', color: '#00aaff', desc: 'Распределяет запросы между несколькими backend-серверами.' },
+  { id: 3, name: 'Веб-сервер',     icon: '', color: '#00e676', desc: 'Nginx/Apache. Обрабатывает HTTP-запросы, отдаёт статику или проксирует на app-серверы.' },
+  { id: 4, name: 'App-сервер',     icon: '', color: '#818cf8', desc: 'Бизнес-логика приложения. Node.js, Python, Java, Go и др.' },
+  { id: 5, name: 'Кэш',            icon: '', color: '#ffb300', desc: 'Redis / Memcached. Хранит горячие данные в памяти для ускорения ответов.' },
+  { id: 6, name: 'База данных',    icon: '', color: '#fb923c', desc: 'PostgreSQL / MySQL. Надёжное хранение структурированных данных.' },
+  { id: 7, name: 'Очередь',        icon: '', color: '#a78bfa', desc: 'RabbitMQ / Kafka. Асинхронная обработка и развязка сервисов.' },
+  { id: 8, name: 'Object Storage', icon: '', color: '#64748b', desc: 'MinIO / S3. Хранение файлов, медиа, бэкапов.' },
+  { id: 9, name: 'CDN',            icon: '', color: '#0ea5e9', desc: 'Cloudflare / Fastly. Кэширование статики на edge-серверах ближе к пользователям.' },
+  { id: 10, name: 'Мониторинг',    icon: '', color: '#00e676', desc: 'Prometheus + Grafana. Сбор метрик, алерты, дашборды.' },
 ]
 
 export default function DragStack() {
-  const [items, setItems] = useState(INITIAL_ITEMS)
+  const [items] = useState(INITIAL_ITEMS)
   const [stack, setStack] = useState([])
   const dragSrc = useRef(null)
   const dragTarget = useRef(null)
@@ -63,7 +63,7 @@ export default function DragStack() {
   return (
     <div>
       <h1 className="page-title">Конструктор <span className="accent">стека</span></h1>
-      <p className="page-subtitle">Собери архитектуру сервиса из компонентов. Перетаскивай для изменения порядка в стеке.</p>
+      <p className="page-subtitle">Собери архитектуру сервиса из компонентов. Нажимай, чтобы добавить, и перетаскивай для изменения порядка.</p>
 
       <div className="drag-layout">
         <div className="drag-panel">
@@ -76,12 +76,11 @@ export default function DragStack() {
                 style={{ '--ic': item.color }}
                 onClick={() => addToStack(item)}
               >
-                <span className="drag-src-icon">{item.icon}</span>
                 <div className="drag-src-info">
                   <div className="drag-src-name">{item.name}</div>
                   <div className="drag-src-desc">{item.desc}</div>
                 </div>
-                <span className="drag-src-add">{stack.find(s => s.id === item.id) ? '✓' : '+'}</span>
+                <span className="drag-src-add">{stack.find(s => s.id === item.id) ? 'Добавлено' : 'Добавить'}</span>
               </div>
             ))}
           </div>
@@ -97,8 +96,7 @@ export default function DragStack() {
 
           {stack.length === 0 ? (
             <div className="drag-stack-empty">
-              <div className="drag-empty-icon">🏗️</div>
-              <div>Нажми на компонент слева, чтобы добавить его в стек</div>
+              <div>Нажми на компонент слева, чтобы добавить его в стек.</div>
             </div>
           ) : (
             <div className="drag-stack-list">
@@ -114,14 +112,13 @@ export default function DragStack() {
                   onDragEnd={onDragEnd}
                 >
                   <div className="stack-item-layer">{String(idx + 1).padStart(2, '0')}</div>
-                  <span className="stack-item-icon">{item.icon}</span>
                   <div className="stack-item-info">
                     <div className="stack-item-name" style={{ color: item.color }}>{item.name}</div>
                     <div className="stack-item-desc">{item.desc}</div>
                   </div>
                   <div className="stack-item-actions">
-                    <span className="stack-drag-handle">⠿</span>
-                    <button className="stack-remove" onClick={() => removeFromStack(item.id)}>✕</button>
+                    <span className="stack-drag-handle">::</span>
+                    <button className="stack-remove" onClick={() => removeFromStack(item.id)}>Удалить</button>
                   </div>
                 </div>
               ))}
