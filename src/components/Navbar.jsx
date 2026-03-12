@@ -1,36 +1,74 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import './Navbar.css'
 
-const LINKS = [
-  { to: '/', label: 'Главная', group: 'Основное' },
-  { to: '/roadmap', label: 'Роадмап', group: 'Основное' },
-  { to: '/skills', label: 'Навыки', group: 'Основное' },
-  { to: '/quiz', label: 'Квиз', group: 'Основное' },
-  { to: '/theory', label: 'Теория', group: 'Знания' },
-  { to: '/glossary', label: 'Глоссарий', group: 'Знания' },
-  { to: '/commands', label: 'Команды', group: 'Инструменты' },
-  { to: '/tools', label: 'Инструменты', group: 'Инструменты' },
-  { to: '/ports', label: 'Порты', group: 'Инструменты' },
-  { to: '/subnet', label: 'Подсети', group: 'Инструменты' },
-  { to: '/regex', label: 'Regex', group: 'Инструменты' },
-  { to: '/cron', label: 'Cron', group: 'Инструменты' },
-  { to: '/network', label: 'Сеть', group: 'Инструменты' },
-  { to: '/terminal', label: 'Терминал', group: 'Практика' },
-  { to: '/checklist', label: 'Чеклист', group: 'Практика' },
-  { to: '/incident', label: 'Инцидент', group: 'Практика' },
-  { to: '/drag-stack', label: 'Стек', group: 'Практика' },
+const GROUPS = [
+  {
+    label: 'Основное',
+    links: [
+      { to: '/',         label: 'Главная' },
+      { to: '/roadmap',  label: 'Роадмап' },
+      { to: '/skills',   label: 'Навыки' },
+      { to: '/quiz',     label: 'Квиз' },
+    ]
+  },
+  {
+    label: 'Знания',
+    links: [
+      { to: '/theory',   label: 'Теория' },
+      { to: '/glossary', label: 'Глоссарий' },
+    ]
+  },
+  {
+    label: 'Инструменты',
+    links: [
+      { to: '/commands', label: 'Команды' },
+      { to: '/tools',    label: 'Инструменты' },
+      { to: '/ports',    label: 'Порты' },
+      { to: '/subnet',   label: 'Подсети' },
+      { to: '/regex',    label: 'Regex' },
+      { to: '/cron',     label: 'Cron' },
+      { to: '/network',  label: 'Сеть' },
+    ]
+  },
+  {
+    label: 'Практика',
+    links: [
+      { to: '/terminal',   label: 'Терминал' },
+      { to: '/checklist',  label: 'Чеклист' },
+      { to: '/incident',   label: 'Инцидент' },
+      { to: '/drag-stack', label: 'Стек' },
+    ]
+  },
 ]
 
-const GROUPS = ['Основное', 'Знания', 'Инструменты', 'Практика']
-
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen]       = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const location = useLocation()
+  const ref = useRef(null)
+
+  useEffect(() => { setOpen(false) }, [location])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (open && ref.current && !ref.current.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [open])
 
   return (
-    <nav className="navbar">
-      <div className="navbar-top">
-        <div className="navbar-brand">
+    <nav ref={ref} className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+      <div className="navbar-inner">
+        {/* Brand */}
+        <NavLink to="/" className="navbar-brand">
           <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
             <rect x="1" y="7" width="18" height="6" rx="2" stroke="#00aaff" strokeWidth="1.5"/>
             <circle cx="15" cy="10" r="1.2" fill="#00aaff"/>
@@ -43,27 +81,51 @@ export default function Navbar() {
             <line x1="6" y1="13" x2="6" y2="15" stroke="#00aaff" strokeWidth="1.2"/>
             <line x1="14" y1="13" x2="14" y2="15" stroke="#00aaff" strokeWidth="1.2"/>
           </svg>
-          SysAdmin Guide
+          <span>SysAdmin Guide</span>
+        </NavLink>
+
+        {/* Desktop nav */}
+        <div className="navbar-groups">
+          {GROUPS.map(g => (
+            <div key={g.label} className="nav-group">
+              <span className="nav-group-label">{g.label}</span>
+              <div className="nav-group-links">
+                {g.links.map(l => (
+                  <NavLink
+                    key={l.to}
+                    to={l.to}
+                    end={l.to === '/'}
+                    className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+                  >
+                    {l.label}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
+
+        {/* Burger */}
         <button
-          className={`navbar-burger ${open ? 'active' : ''}`}
+          className={`navbar-burger ${open ? 'open' : ''}`}
           onClick={() => setOpen(o => !o)}
           aria-label="Меню"
         >
           <span/><span/><span/>
         </button>
       </div>
-      <div className={`navbar-links ${open ? 'mob-open' : ''}`}>
-        {GROUPS.map(group => (
-          <div key={group} className="nav-group">
-            <div className="nav-group-label">{group}</div>
-            {LINKS.filter(l => l.group === group).map(l => (
+
+      {/* Mobile menu */}
+      <div className={`navbar-mobile ${open ? 'open' : ''}`}>
+        {GROUPS.map(g => (
+          <div key={g.label} className="mob-group">
+            <div className="mob-group-label">{g.label}</div>
+            {g.links.map(l => (
               <NavLink
                 key={l.to}
                 to={l.to}
                 end={l.to === '/'}
-                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-                onClick={() => setOpen(false)}
+                className={({ isActive }) => `mob-link${isActive ? ' active' : ''}`}
               >
                 {l.label}
               </NavLink>
