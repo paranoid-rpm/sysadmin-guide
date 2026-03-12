@@ -15,6 +15,9 @@ import Network from './pages/Network'
 import Commands from './pages/Commands'
 import Cron from './pages/Cron'
 import Ports from './pages/Ports'
+import Regex from './pages/Regex'
+import Subnet from './pages/Subnet'
+import Glossary from './pages/Glossary'
 import './App.css'
 
 export default function App() {
@@ -38,6 +41,9 @@ export default function App() {
           <Route path="/commands" element={<Commands />} />
           <Route path="/cron" element={<Cron />} />
           <Route path="/ports" element={<Ports />} />
+          <Route path="/regex" element={<Regex />} />
+          <Route path="/subnet" element={<Subnet />} />
+          <Route path="/glossary" element={<Glossary />} />
         </Routes>
       </main>
     </div>

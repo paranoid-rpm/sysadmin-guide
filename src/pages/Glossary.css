@@ -1,0 +1,91 @@
+.gl-controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.gl-search {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: var(--text1);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--sans);
+}
+.gl-search:focus { border-color: var(--accent); }
+.gl-cats { display: flex; flex-wrap: wrap; gap: 6px; }
+.gl-cat-btn {
+  padding: 5px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.gl-cat-btn:hover { border-color: var(--accent); }
+.gl-cat-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,170,255,0.08); }
+
+.gl-count { font-size: 12px; color: var(--text3); font-family: var(--mono); margin-bottom: 16px; }
+
+.gl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+
+.gl-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.gl-card:hover { border-color: rgba(255,255,255,0.18); }
+.gl-card.open { border-color: var(--accent); }
+
+.gl-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+}
+.gl-term {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text1);
+  flex: 1;
+}
+.gl-cat-badge {
+  font-size: 10px;
+  color: var(--accent);
+  background: rgba(0,170,255,0.1);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.gl-arrow { color: var(--text3); font-size: 12px; }
+
+.gl-card-body {
+  padding: 0 16px 14px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gl-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin: 0; }
+.gl-example {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 6px;
+  padding: 7px 12px;
+}
+.gl-ex-prompt { color: var(--accent); font-family: var(--mono); font-size: 13px; flex-shrink: 0; }
+.gl-example code { font-family: var(--mono); font-size: 12px; color: #e2e8f0; word-break: break-all; }
