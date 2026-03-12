@@ -21,22 +21,22 @@ const FS = {
 }
 
 const FILE_CONTENT = {
-  '/home/admin/notes.txt': 'TODO:
+  '/home/admin/notes.txt': `TODO:
 - Check disk space on all servers
 - Update nginx config
 - Rotate SSH keys
-- Review firewall rules',
-  '/home/admin/.bashrc': '# ~/.bashrc
+- Review firewall rules`,
+  '/home/admin/.bashrc': `# ~/.bashrc
 export PATH=$PATH:/usr/local/bin
 alias ll="ls -alF"
 alias grep="grep --color=auto"
-export PS1="\\u@\\h:\\w$ "',
-  '/etc/hosts': '127.0.0.1   localhost
+export PS1="\\u@\\h:\\w$ "`,
+  '/etc/hosts': `127.0.0.1   localhost
 127.0.1.1   srv-01
 10.0.0.1    gateway
 10.0.0.10   db-server
-10.0.0.20   web-server',
-  '/etc/nginx/nginx.conf': 'worker_processes auto;
+10.0.0.20   web-server`,
+  '/etc/nginx/nginx.conf': `worker_processes auto;
 events { worker_connections 1024; }
 http {
   include /etc/nginx/sites-enabled/*;
@@ -45,34 +45,34 @@ http {
     server_name localhost;
     root /var/www/html;
   }
-}',
-  '/etc/ssh/sshd_config': 'Port 22
+}`,
+  '/etc/ssh/sshd_config': `Port 22
 PermitRootLogin no
 PasswordAuthentication yes
 PubkeyAuthentication yes
 AllowUsers admin
-MaxAuthTries 3',
-  '/var/www/html/index.html': '<!DOCTYPE html>
+MaxAuthTries 3`,
+  '/var/www/html/index.html': `<!DOCTYPE html>
 <html>
   <head><title>srv-01</title></head>
   <body><h1>Server is running</h1></body>
-</html>',
-  '/var/log/nginx/access.log': '10.0.0.5 - - [12/Mar/2026:14:22:01] "GET / HTTP/1.1" 200 612
+</html>`,
+  '/var/log/nginx/access.log': `10.0.0.5 - - [12/Mar/2026:14:22:01] "GET / HTTP/1.1" 200 612
 10.0.0.8 - - [12/Mar/2026:14:22:15] "GET /api HTTP/1.1" 404 123
-10.0.0.5 - - [12/Mar/2026:14:23:00] "POST /login HTTP/1.1" 200 88',
-  '/var/log/nginx/error.log': '2026/03/12 14:22:15 [error] 1234#0: *3 open() "/var/www/html/api" failed
-(2: No such file or directory)',
+10.0.0.5 - - [12/Mar/2026:14:23:00] "POST /login HTTP/1.1" 200 88`,
+  '/var/log/nginx/error.log': `2026/03/12 14:22:15 [error] 1234#0: *3 open() "/var/www/html/api" failed
+(2: No such file or directory)`,
 }
 
 const PROCESSES = [
-  { pid: 1,    user: 'root',  cpu: 0.0, mem: 0.1, cmd: '/sbin/init' },
-  { pid: 312,  user: 'root',  cpu: 0.0, mem: 0.2, cmd: '/usr/sbin/sshd' },
-  { pid: 891,  user: 'www',   cpu: 0.3, mem: 1.4, cmd: 'nginx: master process' },
-  { pid: 892,  user: 'www',   cpu: 0.8, mem: 1.1, cmd: 'nginx: worker process' },
+  { pid: 1,    user: 'root',     cpu: 0.0, mem: 0.1, cmd: '/sbin/init' },
+  { pid: 312,  user: 'root',     cpu: 0.0, mem: 0.2, cmd: '/usr/sbin/sshd' },
+  { pid: 891,  user: 'www',      cpu: 0.3, mem: 1.4, cmd: 'nginx: master process' },
+  { pid: 892,  user: 'www',      cpu: 0.8, mem: 1.1, cmd: 'nginx: worker process' },
   { pid: 1021, user: 'postgres', cpu: 0.1, mem: 4.2, cmd: 'postgres: main process' },
-  { pid: 1244, user: 'admin', cpu: 0.0, mem: 0.3, cmd: '-bash' },
-  { pid: 1312, user: 'root',  cpu: 0.0, mem: 0.1, cmd: 'cron' },
-  { pid: 2001, user: 'admin', cpu: 0.2, mem: 0.4, cmd: 'python3 monitor.py' },
+  { pid: 1244, user: 'admin',    cpu: 0.0, mem: 0.3, cmd: '-bash' },
+  { pid: 1312, user: 'root',     cpu: 0.0, mem: 0.1, cmd: 'cron' },
+  { pid: 2001, user: 'admin',    cpu: 0.2, mem: 0.4, cmd: 'python3 monitor.py' },
 ]
 
 const IFCONFIG = `eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
@@ -101,9 +101,7 @@ tmpfs           7.8G  1.2G  6.6G  16% /dev/shm
 /dev/sdb1       500G  210G  290G  42% /backup`
 
 const UNAME = `Linux srv-01 5.15.0-91-generic #101-Ubuntu SMP x86_64 GNU/Linux`
-
 const UPTIME = `up 42 days, 7:14,  2 users,  load average: 0.18, 0.22, 0.19`
-
 const WHOAMI_OUT = `admin`
 
 const HELP_TEXT = `Available commands:
@@ -159,13 +157,13 @@ tcp    LISTEN  0       511     0.0.0.0:443         0.0.0.0:*
 tcp    LISTEN  0       128     0.0.0.0:5432        0.0.0.0:*`
 
 const PING_RESPONSES = {
-  'localhost':   '127.0.0.1',
-  '127.0.0.1':  '127.0.0.1',
-  'google.com':  '142.250.74.110',
-  '8.8.8.8':    '8.8.8.8',
-  'gateway':     '10.0.0.1',
-  'db-server':   '10.0.0.10',
-  'web-server':  '10.0.0.20',
+  'localhost':  '127.0.0.1',
+  '127.0.0.1': '127.0.0.1',
+  'google.com': '142.250.74.110',
+  '8.8.8.8':   '8.8.8.8',
+  'gateway':    '10.0.0.1',
+  'db-server':  '10.0.0.10',
+  'web-server': '10.0.0.20',
 }
 
 function resolvePath(cwd, p) {
@@ -185,21 +183,20 @@ function runCommand(cmd, cwd) {
   const args = parts.slice(1)
 
   switch (base) {
-    case '': return { out: '', cwd }
-    case 'help': return { out: HELP_TEXT, cwd }
-    case 'clear': return { out: '__CLEAR__', cwd }
+    case '':       return { out: '', cwd }
+    case 'help':   return { out: HELP_TEXT, cwd }
+    case 'clear':  return { out: '__CLEAR__', cwd }
     case 'whoami': return { out: WHOAMI_OUT, cwd }
-    case 'uname': return { out: UNAME, cwd }
+    case 'uname':  return { out: UNAME, cwd }
     case 'uptime': return { out: UPTIME, cwd }
-    case 'top': return { out: TOP_TEXT, cwd }
+    case 'top':    return { out: TOP_TEXT, cwd }
     case 'ifconfig': return { out: IFCONFIG, cwd }
-    case 'netstat': return { out: NETSTAT, cwd }
-    case 'df': return { out: DISK, cwd }
-    case 'free': return { out: FREE_TEXT, cwd }
-    case 'ss': return { out: SS_TEXT, cwd }
-    case 'pwd': return { out: cwd, cwd }
-
-    case 'echo': return { out: args.join(' '), cwd }
+    case 'netstat':  return { out: NETSTAT, cwd }
+    case 'df':     return { out: DISK, cwd }
+    case 'free':   return { out: FREE_TEXT, cwd }
+    case 'ss':     return { out: SS_TEXT, cwd }
+    case 'pwd':    return { out: cwd, cwd }
+    case 'echo':   return { out: args.join(' '), cwd }
 
     case 'ps': {
       const header = '  PID USER        CPU%  MEM%  COMMAND'
@@ -228,7 +225,6 @@ function runCommand(cmd, cwd) {
       const target = resolvePath(cwd, args[0])
       const content = FILE_CONTENT[target]
       if (content !== undefined) return { out: content, cwd }
-      // check if it's a dir
       if (FS[target]) return { out: `cat: ${args[0]}: Is a directory`, cwd, err: true }
       return { out: `cat: ${args[0]}: No such file or directory`, cwd, err: true }
     }
@@ -342,7 +338,6 @@ export default function Terminal() {
       setInput(next === -1 ? '' : cmdHistory[next])
     } else if (e.key === 'Tab') {
       e.preventDefault()
-      // Autocomplete
       const parts = input.split(' ')
       if (parts.length === 1) {
         const cmds = ['ls','cd','cat','pwd','ps','top','uname','uptime','whoami','df','free','netstat','ifconfig','ping','ss','echo','mkdir','touch','rm','help','clear']
